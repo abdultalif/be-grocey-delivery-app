@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo '🛠️ Styling your project before committing 🛠️'
+echo 'Please wait, this may take a while...'
+
+# Check format
+yarn format || {
+  echo '💀 Oops.. there is a problem with your code formatting 💀'
+  echo 'Please fix it first, then commit again'
+  false
+}
+
+# Check Lint
+yarn lint || {
+  echo '💀 Oops.. there is a problem with your code linting 💀'
+  echo 'Please fix it first, then commit again'
+  false
+}
+
+# Check Lint-Staged (only for staged files)
+echo '🔍 Running linting on staged files...'
+npx lint-staged || {
+  echo '💀 Oops.. there is a problem with linting the staged files 💀'
+  echo 'Please fix it first, then commit again'
+  false
+}
+
+echo '✅ No errors found: you can commit your code now 🚀🚀🤝'
