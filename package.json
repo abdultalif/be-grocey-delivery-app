@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migration:run": "yarn typeorm migration:run -d src/common/data-source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -26,13 +27,17 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.4.2",
     "@nestjs/typeorm": "^10.0.2",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "nest-winston": "^1.9.7",
     "passport": "^0.7.0",
     "pg": "^8.13.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.20",
     "winston": "^3.15.0",
     "zod": "^3.23.8"
