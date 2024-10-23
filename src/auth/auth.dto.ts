@@ -9,6 +9,14 @@ export class LoginUserRequest {
   password: string;
 }
 
+export class JwtPayload {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  is_verified: boolean;
+}
+
 export class RegisterResponse {
   id: string;
   email: string;
