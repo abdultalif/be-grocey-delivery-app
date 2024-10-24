@@ -27,5 +27,4 @@ export class RegisterResponse {
 
 export class LoginResponse {
   token: string;
-  refresh_token: string;
 }

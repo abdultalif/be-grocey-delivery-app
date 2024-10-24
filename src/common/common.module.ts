@@ -3,10 +3,26 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ValidationService } from './validation.service';
 import { Users } from 'src/users/users.entity';
+import { Products } from 'src/products/products.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    WinstonModule.forRoot({
+      format: winston.format.json(),
+      transports: [
+        new winston.transports.Console({
+          level: 'silly',
+          handleExceptions: true,
+          format: winston.format.combine(
+            winston.format.colorize({ all: true }),
+          ),
+        }),
+      ],
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -18,7 +34,7 @@ import { Users } from 'src/users/users.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Users],
+        entities: [Users, Products],
         synchronize: false,
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         cli: {
@@ -26,7 +42,9 @@ import { Users } from 'src/users/users.entity';
         },
       }),
     }),
+    JwtModule,
   ],
   providers: [ValidationService],
+  exports: [ValidationService],
 })
 export class CommonModule {}

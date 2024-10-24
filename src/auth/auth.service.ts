@@ -13,16 +13,19 @@ import {
   RegisterUserRequest,
 } from './auth.dto';
 import { AuthValidation } from './auth.validation';
-import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Repository } from 'typeorm';
+import { Users } from 'src/users/users.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(Users)
+    private authRepository: Repository<Users>,
     private validationService: ValidationService,
-    private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
@@ -33,9 +36,9 @@ export class AuthService {
       request,
     );
 
-    const emailExists = await this.usersService.findByEmail(
-      registerRequest.email,
-    );
+    const emailExists = await this.authRepository.findOne({
+      where: { email: registerRequest.email },
+    });
 
     if (emailExists) {
       throw new BadRequestException('Email sudah terdaftar');
@@ -43,18 +46,20 @@ export class AuthService {
 
     registerRequest.password = await bcrypt.hash(registerRequest.password, 10);
 
-    const user = await this.usersService.createUser({
+    const user = this.authRepository.create({
       email: registerRequest.email,
       name: registerRequest.name,
       password: registerRequest.password,
     });
 
+    const result = await this.authRepository.save(user);
+
     return {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      is_verified: user.is_verified,
+      id: result.id,
+      email: result.email,
+      name: result.name,
+      role: result.role,
+      is_verified: result.is_verified,
     };
   }
 
@@ -64,7 +69,9 @@ export class AuthService {
       request,
     );
 
-    const user = await this.usersService.findByEmail(loginRequest.email);
+    const user = await this.authRepository.findOne({
+      where: { email: loginRequest.email },
+    });
 
     if (!user) {
       throw new UnauthorizedException('Email atau password salah');
@@ -92,18 +99,11 @@ export class AuthService {
     };
 
     const token = this.jwtService.sign(payload, {
-      secret: this.configService.get<string>('JWT_SECRET'),
       expiresIn: this.configService.get<string>('JWT_EXPIRES_IN'),
-    });
-
-    const refreshToken = this.jwtService.sign(payload, {
-      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-      expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRES_IN'),
     });
 
     return {
       token: token,
-      refresh_token: refreshToken,
     };
   }
 }
