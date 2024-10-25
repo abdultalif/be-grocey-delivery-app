@@ -18,9 +18,9 @@ import {
   ProductResponse,
   UpdateProductRequest,
 } from './products.dto';
-import { WebResponse } from 'src/common/web-response.type';
-import { RolesGuard } from 'src/common/roles.guard';
-import { Roles } from 'src/common/roles.decorator';
+import { WebResponse } from 'src/common/types/web-response.type';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -46,6 +46,7 @@ export class ProductsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('User')
   @HttpCode(200)
   @Get('')
   async getAll(): Promise<WebResponse<ProductResponse[]>> {
@@ -58,6 +59,7 @@ export class ProductsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('User')
   @HttpCode(200)
   @Get('/:productId')
   async getById(
@@ -72,6 +74,7 @@ export class ProductsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('User')
   @HttpCode(200)
   @Patch('/:productId')
   @UseInterceptors(FileInterceptor('image'))

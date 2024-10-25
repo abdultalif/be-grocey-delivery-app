@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ValidationService } from 'src/common/validation.service';
+import { ValidationService } from 'src/common/services/validation.service';
 import {
   CreateProductRequest,
   ProductResponse,
   UpdateProductRequest,
 } from './products.dto';
-import { ProductsValidation } from './products.validation';
+import { ProductsValidation } from './validation/products.validation';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Products } from './products.entity';
-import { imagekit } from 'src/common/imagekit.config';
+import { imagekit } from 'src/common/config/imagekit.config';
 
 @Injectable()
 export class ProductsService {

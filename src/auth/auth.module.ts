@@ -7,9 +7,9 @@ import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RolesGuard } from '../common/roles.guard';
-import { JwtStrategy } from './jwt.strategy';
+import { RolesGuard } from '../common/guards/roles.guard';
 import { CommonModule } from 'src/common/common.module';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [

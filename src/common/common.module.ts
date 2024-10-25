@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ValidationService } from './validation.service';
+import { ValidationService } from './services/validation.service';
 import { Users } from 'src/users/users.entity';
 import { Products } from 'src/products/products.entity';
 import { JwtModule } from '@nestjs/jwt';

@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ValidationService } from 'src/common/validation.service';
+import { ValidationService } from 'src/common/services/validation.service';
 import {
   JwtPayload,
   LoginResponse,
@@ -12,7 +12,7 @@ import {
   RegisterResponse,
   RegisterUserRequest,
 } from './auth.dto';
-import { AuthValidation } from './auth.validation';
+import { AuthValidation } from './validation/auth.validation';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';

@@ -13,11 +13,11 @@ import {
   RegisterResponse,
   RegisterUserRequest,
 } from './auth.dto';
-import { WebResponse } from 'src/common/web-response.type';
-import { Auth } from 'src/common/auth.decorator';
+import { WebResponse } from 'src/common/types/web-response.type';
+import { Auth } from 'src/common/decorators/auth.decorator';
 import { Users } from 'src/users/users.entity';
-import { Roles } from '../common/roles.decorator';
-import { RolesGuard } from '../common/roles.guard';
+import { Roles } from '../common/decorators/roles.decorator';
+import { RolesGuard } from '../common/guards/roles.guard';
 import { JwtAuthGuard } from './auth.guard';
 
 @Controller('/api/v1/auth')
