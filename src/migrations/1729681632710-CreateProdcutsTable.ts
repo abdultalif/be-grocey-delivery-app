@@ -18,11 +18,11 @@ export class CreateProdcutsTable1729681632710 implements MigrationInterface {
           },
           {
             name: 'price',
-            type: 'int',
+            type: 'varchar',
           },
           {
             name: 'stock',
-            type: 'int',
+            type: 'varchar',
           },
           {
             name: 'image',

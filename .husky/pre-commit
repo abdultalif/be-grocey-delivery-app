@@ -19,11 +19,11 @@ yarn lint || {
 }
 
 # Check Lint-Staged (only for staged files)
-# echo '🔍 Running linting on staged files...'
-# npx lint-staged || {
-#   echo '💀 Oops.. there is a problem with linting the staged files 💀'
-#   echo 'Please fix it first, then commit again'
-#   false
-# }
+echo '🔍 Running linting on staged files...'
+npx lint-staged || {
+  echo '💀 Oops.. there is a problem with linting the staged files 💀'
+  echo 'Please fix it first, then commit again'
+  false
+}
 
 echo '✅ No errors found: you can commit your code now 🚀🚀🤝'

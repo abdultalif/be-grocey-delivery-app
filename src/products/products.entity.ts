@@ -15,10 +15,10 @@ export class Products {
   name: string;
 
   @Column()
-  price: number;
+  price: string;
 
   @Column()
-  stock: number;
+  stock: string;
 
   @Column()
   image: string;

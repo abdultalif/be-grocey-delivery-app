@@ -5,24 +5,10 @@ import { ValidationService } from './validation.service';
 import { Users } from 'src/users/users.entity';
 import { Products } from 'src/products/products.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { WinstonModule } from 'nest-winston';
-import * as winston from 'winston';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    WinstonModule.forRoot({
-      format: winston.format.json(),
-      transports: [
-        new winston.transports.Console({
-          level: 'silly',
-          handleExceptions: true,
-          format: winston.format.combine(
-            winston.format.colorize({ all: true }),
-          ),
-        }),
-      ],
-    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
