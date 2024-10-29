@@ -1,9 +1,11 @@
+import { Carts } from 'src/carts/carts.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -34,4 +36,7 @@ export class Products {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
+
+  @OneToMany(() => Carts, (cart) => cart.product)
+  carts: Carts[];
 }

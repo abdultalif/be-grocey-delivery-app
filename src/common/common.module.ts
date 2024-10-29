@@ -5,6 +5,7 @@ import { ValidationService } from './services/validation.service';
 import { Users } from 'src/users/users.entity';
 import { Products } from 'src/products/products.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { Carts } from 'src/carts/carts.entity';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { JwtModule } from '@nestjs/jwt';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Users, Products],
+        entities: [Users, Products, Carts],
         synchronize: false,
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         cli: {
