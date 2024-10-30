@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -25,7 +26,7 @@ export class CartsController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('User')
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   async create(
     @Auth() user: Users,
     @Body() request: CreateCartRequest,
@@ -34,7 +35,7 @@ export class CartsController {
 
     return {
       message: 'berhasil menambah data keranjang',
-      statusCode: 201,
+      statusCode: HttpStatus.CREATED,
       data: result,
     };
   }
@@ -42,13 +43,13 @@ export class CartsController {
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('User')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async getAll(@Auth() user: Users): Promise<WebResponse<any>> {
     const result = await this.cartsService.getAll(user);
 
     return {
       message: 'Data keranjang berhasil diambil',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result.map((cart) => ({
         id: cart.id,
         quantity: cart.quantity,
@@ -62,7 +63,7 @@ export class CartsController {
   @Get('/:cartId')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('User')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async getById(
     @Auth() user: Users,
     @Param('cartId', ParseUUIDPipe) cartId: string,
@@ -71,7 +72,7 @@ export class CartsController {
 
     return {
       message: `Data keranjang id: ${cartId} berhasil diambil`,
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }
@@ -79,7 +80,7 @@ export class CartsController {
   @Delete('/:cartId')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('User')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async deleteById(
     @Auth() user: Users,
     @Param('cartId', ParseUUIDPipe) cartId: string,
@@ -88,7 +89,7 @@ export class CartsController {
 
     return {
       message: `Data keranjang id: ${cartId} berhasil dihapus`,
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }
@@ -96,13 +97,13 @@ export class CartsController {
   @Delete()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('User')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async deleteAll(@Auth() user: Users): Promise<WebResponse<CartResponse[]>> {
     const result = await this.cartsService.deleteAll(user);
 
     return {
       message: 'Data keranjang berhasil dihapus',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }
@@ -110,7 +111,7 @@ export class CartsController {
   @Patch('/:cartId')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('User')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async patch(
     @Auth() user: Users,
     @Param('cartId', ParseUUIDPipe) cartId: string,
@@ -120,7 +121,7 @@ export class CartsController {
 
     return {
       message: `Data keranajang ID: ${cartId} berhasil diupdate`,
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }

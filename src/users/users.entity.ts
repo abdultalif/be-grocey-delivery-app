@@ -22,6 +22,12 @@ export class Users {
   @Column()
   password: string;
 
+  @Column({ default: null })
+  address: string;
+
+  @Column({ default: null })
+  phone: string;
+
   @Column({ default: 'User' })
   role: string;
 

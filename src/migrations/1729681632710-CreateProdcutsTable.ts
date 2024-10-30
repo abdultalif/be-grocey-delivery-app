@@ -17,7 +17,15 @@ export class CreateProdcutsTable1729681632710 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'category',
+            type: 'varchar',
+          },
+          {
             name: 'price',
+            type: 'varchar',
+          },
+          {
+            name: 'weight',
             type: 'varchar',
           },
           {

@@ -31,6 +31,16 @@ export class CreateUsersTable1729600477535 implements MigrationInterface {
             default: "'User'",
           },
           {
+            name: 'address',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'phone',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'is_verified',
             type: 'boolean',
             default: true,
