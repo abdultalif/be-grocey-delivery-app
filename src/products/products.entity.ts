@@ -23,6 +23,12 @@ export class Products {
   stock: string;
 
   @Column()
+  category: string;
+
+  @Column()
+  weight: string;
+
+  @Column()
   image: string;
 
   @Column()

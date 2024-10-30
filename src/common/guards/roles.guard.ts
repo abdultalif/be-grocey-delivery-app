@@ -19,7 +19,7 @@ export class RolesGuard implements CanActivate {
     const user = request.user;
 
     if (!roles.includes(user.role)) {
-      throw new ForbiddenException('Anda bukan admin');
+      throw new ForbiddenException(`Anda bukan ${roles}`);
     }
     return true;
   }

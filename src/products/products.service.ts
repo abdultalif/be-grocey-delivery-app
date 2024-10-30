@@ -28,6 +28,14 @@ export class ProductsService {
       request,
     );
 
+    const productExist = await this.productsRepository.findOneBy({
+      name: createProduct.name,
+    });
+
+    if (productExist) {
+      throw new NotFoundException('Produk sudah ada');
+    }
+
     const uploadImage = await imagekit.upload({
       file: file.buffer,
       fileName: file.originalname,
@@ -47,6 +55,8 @@ export class ProductsService {
     return {
       id: savedProduct.id,
       name: savedProduct.name,
+      category: savedProduct.category,
+      weight: savedProduct.weight,
       price: savedProduct.price,
       stock: savedProduct.stock,
       image: savedProduct.image,
@@ -99,6 +109,8 @@ export class ProductsService {
       name: updatedProduct.name,
       price: updatedProduct.price,
       stock: updatedProduct.stock,
+      category: updatedProduct.category,
+      weight: updatedProduct.weight,
       image: updatedProduct.image,
       image_public_id: updatedProduct.image_public_id,
       description: updatedProduct.description,
@@ -117,6 +129,8 @@ export class ProductsService {
       name: product.name,
       price: product.price,
       stock: product.stock,
+      category: product.category,
+      weight: product.weight,
       image: product.image,
       image_public_id: product.image_public_id,
       description: product.description,
@@ -134,6 +148,8 @@ export class ProductsService {
       name: result.name,
       price: result.price,
       stock: result.stock,
+      category: result.category,
+      weight: result.weight,
       image: result.image,
       image_public_id: result.image_public_id,
       description: result.description,
@@ -155,6 +171,8 @@ export class ProductsService {
       name: user.name,
       price: user.price,
       stock: user.stock,
+      category: user.category,
+      weight: user.weight,
       image: user.image,
       image_public_id: user.image_public_id,
       description: user.description,

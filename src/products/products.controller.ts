@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -29,9 +30,9 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('User')
+  @Roles('Admin')
   @Post()
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FileInterceptor('image'))
   async create(
     @Body() request: CreateProductRequest,
@@ -40,27 +41,27 @@ export class ProductsController {
     const result = await this.productsService.create(request, file);
     return {
       message: 'Products created successfully',
-      statusCode: 201,
+      statusCode: HttpStatus.CREATED,
       data: result,
     };
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('User')
-  @HttpCode(200)
-  @Get('')
+  @Roles('Admin')
+  @HttpCode(HttpStatus.OK)
+  @Get()
   async getAll(): Promise<WebResponse<ProductResponse[]>> {
     const result = await this.productsService.getAll();
     return {
       message: 'Data produk berhasil diambil',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('User')
-  @HttpCode(200)
+  @Roles('Admin')
+  @HttpCode(HttpStatus.OK)
   @Get('/:productId')
   async getById(
     @Param('productId', ParseUUIDPipe) productId: string,
@@ -68,14 +69,14 @@ export class ProductsController {
     const result = await this.productsService.getById(productId);
     return {
       message: 'Data produk berhasil diambil',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('User')
-  @HttpCode(200)
+  @Roles('Admin')
+  @HttpCode(HttpStatus.OK)
   @Patch('/:productId')
   @UseInterceptors(FileInterceptor('image'))
   async update(
@@ -86,14 +87,14 @@ export class ProductsController {
     const result = await this.productsService.update(productId, request, file);
     return {
       message: 'Data produk berhasil diambil',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('User')
-  @HttpCode(200)
+  @Roles('Admin')
+  @HttpCode(HttpStatus.OK)
   @Delete('/:productId')
   async delete(
     @Param('productId', ParseUUIDPipe) productId: string,
@@ -101,7 +102,7 @@ export class ProductsController {
     const result = await this.productsService.remove(productId);
     return {
       message: 'Produk dihapus',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: result,
     };
   }

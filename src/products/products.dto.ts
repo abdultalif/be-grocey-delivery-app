@@ -1,6 +1,8 @@
 export class CreateProductRequest {
   name: string;
   price: string;
+  category: string;
+  weight: string;
   stock: string;
   description?: string;
 }
@@ -8,6 +10,8 @@ export class CreateProductRequest {
 export class UpdateProductRequest {
   name?: string;
   price?: string;
+  category?: string;
+  weight?: string;
   stock?: string;
   description?: string;
 }
@@ -17,6 +21,8 @@ export class ProductResponse {
   name: string;
   price: string;
   stock: string;
+  category: string;
+  weight: string;
   image: string;
   image_public_id: string;
   description?: string;
