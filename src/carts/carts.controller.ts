@@ -16,7 +16,12 @@ import { Auth } from 'src/common/decorators/auth.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Users } from 'src/users/users.entity';
-import { CartResponse, CreateCartRequest, UpdateCartRequest } from './cart.dto';
+import {
+  CartResponse,
+  CartsResponse,
+  CreateCartRequest,
+  UpdateCartRequest,
+} from './cart.dto';
 import { WebResponse } from 'src/common/types/web-response.type';
 import { CartsService } from './carts.service';
 
@@ -44,7 +49,7 @@ export class CartsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('User')
   @HttpCode(HttpStatus.OK)
-  async getAll(@Auth() user: Users): Promise<WebResponse<any>> {
+  async getAll(@Auth() user: Users): Promise<WebResponse<CartsResponse[]>> {
     const result = await this.cartsService.getAll(user);
 
     return {
@@ -67,7 +72,7 @@ export class CartsController {
   async getById(
     @Auth() user: Users,
     @Param('cartId', ParseUUIDPipe) cartId: string,
-  ): Promise<WebResponse<any>> {
+  ): Promise<WebResponse<CartsResponse>> {
     const result = await this.cartsService.getById(user, cartId);
 
     return {
@@ -116,7 +121,7 @@ export class CartsController {
     @Auth() user: Users,
     @Param('cartId', ParseUUIDPipe) cartId: string,
     @Body() request: UpdateCartRequest,
-  ): Promise<WebResponse<any>> {
+  ): Promise<WebResponse<CartResponse>> {
     const result = await this.cartsService.patch(user, cartId, request);
 
     return {

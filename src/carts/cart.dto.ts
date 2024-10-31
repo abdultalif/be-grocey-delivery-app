@@ -15,3 +15,29 @@ export class CartResponse {
   total: number;
   user_id: string;
 }
+
+export interface Product {
+  id: string;
+  name: string;
+  price: string;
+  stock: string;
+  image: string;
+  category: string;
+  weight: string;
+  description: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+}
+
+export interface CartsResponse {
+  id: string;
+  quantity: number;
+  total: number;
+  product: Product;
+  user: User;
+}

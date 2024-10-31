@@ -1,6 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Users } from 'src/users/users.entity';
-import { CartResponse, CreateCartRequest, UpdateCartRequest } from './cart.dto';
+import {
+  CartResponse,
+  CartsResponse,
+  CreateCartRequest,
+  UpdateCartRequest,
+} from './cart.dto';
 import { ValidationService } from 'src/common/services/validation.service';
 import { CartsValidation } from './validation/carts.validation';
 import { Carts } from './carts.entity';
@@ -65,7 +70,7 @@ export class CartsService {
     };
   }
 
-  async getAll(user: Users): Promise<any> {
+  async getAll(user: Users): Promise<CartsResponse[]> {
     const result = await this.cartsRepository.find({
       where: {
         user: { id: user.id },
@@ -80,6 +85,9 @@ export class CartsService {
           name: true,
           price: true,
           stock: true,
+          category: true,
+          weight: true,
+
           image: true,
           description: true,
         },
@@ -101,7 +109,7 @@ export class CartsService {
     }));
   }
 
-  async getById(user: Users, cartId: string): Promise<any> {
+  async getById(user: Users, cartId: string): Promise<CartsResponse> {
     const result = await this.cartsRepository.findOne({
       where: {
         id: cartId,
@@ -117,6 +125,8 @@ export class CartsService {
           name: true,
           price: true,
           stock: true,
+          category: true,
+          weight: true,
           image: true,
           description: true,
         },

@@ -4,14 +4,14 @@ import { CartsService } from './carts.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Carts } from './carts.entity';
 import { CommonModule } from 'src/common/common.module';
-import { JwtModule } from '@nestjs/jwt';
 import { Products } from 'src/products/products.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     CommonModule,
     TypeOrmModule.forFeature([Carts, Products]),
-    JwtModule,
+    AuthModule,
   ],
   controllers: [CartsController],
   providers: [CartsService],
