@@ -12,7 +12,7 @@ export class UserSeeder {
       {
         id: '1273ac16-c8b4-4baa-abc1-d39818a04f19',
         name: 'Abdul',
-        email: 'abdultali65@gmail.com',
+        email: 'abdultalif65@gmail.com',
         password:
           '$2b$10$LtZetK9HHfeULj3JFv9SuOjV3sy74khTEmfCbnB.8XqfBpDE6RRT.',
         role: 'Admin',
