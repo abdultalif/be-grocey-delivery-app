@@ -62,6 +62,21 @@ export class ProductsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('Admin')
   @HttpCode(HttpStatus.OK)
+  @Get('/:category')
+  async getByCategory(
+    @Param('category') category: string,
+  ): Promise<WebResponse<ProductResponse[]>> {
+    const result = await this.productsService.getByCategory(category);
+    return {
+      message: `Data produk katregori: ${category} berhasil diambil`,
+      statusCode: HttpStatus.OK,
+      data: result,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('Admin')
+  @HttpCode(HttpStatus.OK)
   @Get('/:productId')
   async getById(
     @Param('productId', ParseUUIDPipe) productId: string,

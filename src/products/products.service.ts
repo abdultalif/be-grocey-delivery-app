@@ -136,6 +136,29 @@ export class ProductsService {
       description: product.description,
     }));
   }
+  async getByCategory(category: string): Promise<ProductResponse[]> {
+    const result = await this.productsRepository.find({
+      where: { category: category },
+    });
+
+    if (result.length === 0) {
+      throw new NotFoundException(
+        `Produk katregori ${category} tidak ditemukan`,
+      );
+    }
+
+    return result.map((product) => ({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      stock: product.stock,
+      category: product.category,
+      weight: product.weight,
+      image: product.image,
+      image_public_id: product.image_public_id,
+      description: product.description,
+    }));
+  }
   async getById(productId: string): Promise<ProductResponse> {
     const result = await this.productsRepository.findOneBy({ id: productId });
 
