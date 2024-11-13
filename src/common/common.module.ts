@@ -2,12 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ValidationService } from './services/validation.service';
-import { Users } from 'src/users/users.entity';
-import { Products } from 'src/products/products.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { Carts } from 'src/carts/carts.entity';
-import { Provinces } from 'src/raja-ongkir/entity/provinces.entity';
-import { Cities } from 'src/raja-ongkir/entity/citites.entity';
 
 @Module({
   imports: [
@@ -23,7 +18,7 @@ import { Cities } from 'src/raja-ongkir/entity/citites.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Users, Products, Carts, Provinces, Cities],
+        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: false,
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         cli: {

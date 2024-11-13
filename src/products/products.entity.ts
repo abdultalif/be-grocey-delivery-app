@@ -1,4 +1,5 @@
 import { Carts } from 'src/carts/carts.entity';
+import { Transaction_Details } from 'src/transaction/entity/transaction_details.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -17,16 +18,16 @@ export class Products {
   name: string;
 
   @Column()
-  price: string;
+  price: number;
 
   @Column()
-  stock: string;
+  stock: number;
 
   @Column()
   category: string;
 
   @Column()
-  weight: string;
+  weight: number;
 
   @Column()
   image: string;
@@ -45,4 +46,10 @@ export class Products {
 
   @OneToMany(() => Carts, (cart) => cart.product)
   carts: Carts[];
+
+  @OneToMany(
+    () => Transaction_Details,
+    (transaction_detail) => transaction_detail.product,
+  )
+  transaction_details: Transaction_Details[];
 }

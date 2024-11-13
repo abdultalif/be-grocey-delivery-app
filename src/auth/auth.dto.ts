@@ -14,6 +14,8 @@ export class JwtPayload {
   email: string;
   name: string;
   role: string;
+  phone: string;
+  address: string;
   is_verified: boolean;
 }
 

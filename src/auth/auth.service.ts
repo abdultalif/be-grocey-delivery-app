@@ -95,6 +95,8 @@ export class AuthService {
       email: user.email,
       name: user.name,
       role: user.role,
+      address: user.address,
+      phone: user.phone,
       is_verified: user.is_verified,
     };
 

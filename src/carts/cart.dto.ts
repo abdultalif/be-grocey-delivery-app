@@ -19,11 +19,11 @@ export class CartResponse {
 export interface Product {
   id: string;
   name: string;
-  price: string;
-  stock: string;
+  price: number;
+  stock: number;
   image: string;
   category: string;
-  weight: string;
+  weight: number;
   description: string;
 }
 

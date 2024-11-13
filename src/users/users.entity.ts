@@ -1,4 +1,5 @@
 import { Carts } from 'src/carts/carts.entity';
+import { Transaction } from 'src/transaction/entity/transaction.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -42,4 +43,7 @@ export class Users {
 
   @OneToMany(() => Carts, (cart) => cart.user)
   carts: Carts[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  transactions: Transaction[];
 }

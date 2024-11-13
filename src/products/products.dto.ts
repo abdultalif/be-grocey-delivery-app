@@ -1,28 +1,28 @@
 export class CreateProductRequest {
   name: string;
-  price: string;
+  price: number;
   category: string;
-  weight: string;
-  stock: string;
+  weight: number;
+  stock: number;
   description?: string;
 }
 
 export class UpdateProductRequest {
   name?: string;
-  price?: string;
+  price?: number;
   category?: string;
-  weight?: string;
-  stock?: string;
+  weight?: number;
+  stock?: number;
   description?: string;
 }
 
 export class ProductResponse {
   id: string;
   name: string;
-  price: string;
-  stock: string;
+  price: number;
+  stock: number;
   category: string;
-  weight: string;
+  weight: number;
   image: string;
   image_public_id: string;
   description?: string;

@@ -46,8 +46,6 @@ export class ProductsController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('Admin')
   @HttpCode(HttpStatus.OK)
   @Get()
   async getAll(): Promise<WebResponse<ProductResponse[]>> {
@@ -59,8 +57,6 @@ export class ProductsController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('Admin')
   @HttpCode(HttpStatus.OK)
   @Get('/:category')
   async getByCategory(
