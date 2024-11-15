@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Transaction_Details } from './transaction_details.entity';
+import { Reviews } from 'src/reviews/reviews.entity';
 
 @Entity('transactions')
 export class Transaction {
@@ -47,4 +48,7 @@ export class Transaction {
     { cascade: true },
   )
   transaction_details: Transaction_Details[];
+
+  @OneToMany(() => Reviews, (review) => review.transaction, { cascade: true })
+  reviews: Reviews[];
 }

@@ -1,4 +1,5 @@
 import { Carts } from 'src/carts/carts.entity';
+import { Reviews } from 'src/reviews/reviews.entity';
 import { Transaction_Details } from 'src/transaction/entity/transaction_details.entity';
 import {
   Entity,
@@ -46,6 +47,9 @@ export class Products {
 
   @OneToMany(() => Carts, (cart) => cart.product)
   carts: Carts[];
+
+  @OneToMany(() => Reviews, (review) => review.product)
+  reviews: Reviews[];
 
   @OneToMany(
     () => Transaction_Details,

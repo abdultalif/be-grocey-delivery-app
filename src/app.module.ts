@@ -8,6 +8,7 @@ import { ProductsModule } from './products/products.module';
 import { CartsModule } from './carts/carts.module';
 import { RajaOngkirModule } from './raja-ongkir/raja-ongkir.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TransactionModule } from './transaction/transaction.module';
     CartsModule,
     RajaOngkirModule,
     TransactionModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
