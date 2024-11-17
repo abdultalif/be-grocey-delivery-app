@@ -58,7 +58,18 @@ export class ProductsController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Get('/:category')
+  @Get('/with-reviews')
+  async getAllWithReviews(): Promise<WebResponse<any>> {
+    const result = await this.productsService.getAllWithReviews();
+    return {
+      message: 'Data produk berhasil diambil',
+      statusCode: HttpStatus.OK,
+      data: result,
+    };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get('with-reviews/:category')
   async getByCategory(
     @Param('category') category: string,
   ): Promise<WebResponse<ProductResponse[]>> {

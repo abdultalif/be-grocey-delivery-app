@@ -136,9 +136,42 @@ export class ProductsService {
       description: product.description,
     }));
   }
+  async getAllWithReviews(): Promise<any> {
+    const result = await this.productsRepository.find({
+      relations: ['reviews'],
+    });
+
+    if (result.length === 0) {
+      throw new NotFoundException('Produk tidak ditemukan');
+    }
+
+    return result.map((product) => {
+      const reviewCount = product.reviews.length;
+      const averageRating =
+        reviewCount > 0
+          ? product.reviews.reduce((sum, review) => sum + review.rating, 0) /
+            reviewCount
+          : 0;
+
+      return {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        stock: product.stock,
+        category: product.category,
+        weight: product.weight,
+        image: product.image,
+        image_public_id: product.image_public_id,
+        description: product.description,
+        averageRating: parseFloat(averageRating.toFixed(2)),
+        reviewCount,
+      };
+    });
+  }
   async getByCategory(category: string): Promise<ProductResponse[]> {
     const result = await this.productsRepository.find({
       where: { category: category },
+      relations: ['reviews'],
     });
 
     if (result.length === 0) {
@@ -147,17 +180,28 @@ export class ProductsService {
       );
     }
 
-    return result.map((product) => ({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      stock: product.stock,
-      category: product.category,
-      weight: product.weight,
-      image: product.image,
-      image_public_id: product.image_public_id,
-      description: product.description,
-    }));
+    return result.map((product) => {
+      const reviewCount = product.reviews.length;
+      const averageRating =
+        reviewCount > 0
+          ? product.reviews.reduce((sum, review) => sum + review.rating, 0) /
+            reviewCount
+          : 0;
+
+      return {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        stock: product.stock,
+        category: product.category,
+        weight: product.weight,
+        image: product.image,
+        image_public_id: product.image_public_id,
+        description: product.description,
+        averageRating: parseFloat(averageRating.toFixed(2)),
+        reviewCount,
+      };
+    });
   }
   async getById(productId: string): Promise<ProductResponse> {
     const result = await this.productsRepository.findOneBy({ id: productId });
