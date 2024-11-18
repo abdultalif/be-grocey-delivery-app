@@ -65,6 +65,8 @@ describe('AuthService', () => {
       address: null,
       image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
       phone: null,
+      city_id: null,
+      province_id: null,
       password: 'hashedPassword',
       created_at: new Date(),
       updated_at: new Date(),

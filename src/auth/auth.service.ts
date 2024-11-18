@@ -74,6 +74,7 @@ export class AuthService {
 
     const user = await this.authRepository.findOne({
       where: { email: loginRequest.email },
+      relations: ['province', 'city'],
     });
 
     if (!user) {
@@ -102,6 +103,8 @@ export class AuthService {
       address: user.address,
       phone: user.phone,
       is_verified: user.is_verified,
+      province_id: user.province?.id,
+      city_id: user.city?.id,
     };
 
     const token = this.jwtService.sign(payload, {

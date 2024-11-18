@@ -1,4 +1,6 @@
 import { Carts } from 'src/carts/carts.entity';
+import { Cities } from 'src/raja-ongkir/entity/citites.entity';
+import { Provinces } from 'src/raja-ongkir/entity/provinces.entity';
 import { Reviews } from 'src/reviews/reviews.entity';
 import { Transaction } from 'src/transaction/entity/transaction.entity';
 import {
@@ -8,6 +10,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -26,6 +30,9 @@ export class Users {
 
   @Column()
   image: string;
+
+  @Column()
+  image_public_id: string;
 
   @Column({ default: null })
   address: string;
@@ -53,4 +60,12 @@ export class Users {
 
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions: Transaction[];
+
+  @ManyToOne(() => Cities, (city) => city.id)
+  @JoinColumn({ name: 'city_id' })
+  city: Cities;
+
+  @ManyToOne(() => Provinces, (province) => province.id)
+  @JoinColumn({ name: 'province_id' })
+  province: Provinces;
 }

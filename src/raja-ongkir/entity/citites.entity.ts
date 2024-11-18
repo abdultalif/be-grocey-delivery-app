@@ -6,8 +6,10 @@ import {
   PrimaryColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Provinces } from './provinces.entity';
+import { Users } from 'src/users/users.entity';
 
 @Entity()
 export class Cities {
@@ -35,4 +37,7 @@ export class Cities {
   @ManyToOne(() => Provinces, (province) => province.id)
   @JoinColumn({ name: 'province_id' })
   province: Provinces;
+
+  @OneToMany(() => Users, (user) => user.city)
+  users: Users[];
 }

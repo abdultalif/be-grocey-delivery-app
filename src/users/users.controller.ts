@@ -5,7 +5,9 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Users } from './users.entity';
@@ -14,7 +16,8 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { UsersService } from './users.service';
-import { CurrentResponse, RequestChangePassword } from './users.dto';
+import { RequestChangePassword } from './users.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('/api/v1/users')
 export class UsersController {
@@ -24,12 +27,11 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('Admin', 'User')
   @Get('/current')
-  async current(@Auth() user: Users): Promise<WebResponse<CurrentResponse>> {
-    const result = await this.usersService.current(user);
+  async current(@Auth() user: Users): Promise<WebResponse<any>> {
     return {
       message: 'Data pengguna berhasil diambil',
       statusCode: HttpStatus.OK,
-      data: result,
+      data: user,
     };
   }
 
@@ -44,6 +46,39 @@ export class UsersController {
     const result = await this.usersService.changePassword(user, request);
     return {
       message: 'Password berhasil diubah',
+      statusCode: HttpStatus.OK,
+      data: result,
+    };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('Admin', 'User')
+  @Post('/update-profile')
+  async updateProfile(
+    @Auth() user: Users,
+    @Body() request: RequestChangePassword,
+  ): Promise<WebResponse<any>> {
+    const result = await this.usersService.updateProfile(user, request);
+    return {
+      message: 'Profil berhasil diubah',
+      statusCode: HttpStatus.OK,
+      data: result,
+    };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  @Roles('Admin', 'User')
+  @Post('/update-avatar')
+  async updateAvatar(
+    @Auth() user: Users,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<WebResponse<any>> {
+    const result = await this.usersService.updateAvatar(user, file);
+    return {
+      message: 'Avatar berhasil diubah',
       statusCode: HttpStatus.OK,
       data: result,
     };

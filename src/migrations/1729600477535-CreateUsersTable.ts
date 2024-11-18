@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class CreateUsersTable1729600477535 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -35,6 +40,10 @@ export class CreateUsersTable1729600477535 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'image_public_id',
+            type: 'varchar',
+          },
+          {
             name: 'address',
             type: 'varchar',
             isNullable: true,
@@ -48,6 +57,16 @@ export class CreateUsersTable1729600477535 implements MigrationInterface {
             name: 'is_verified',
             type: 'boolean',
             default: true,
+          },
+          {
+            name: 'city_id',
+            type: 'int',
+            isNullable: true,
+          },
+          {
+            name: 'province_id',
+            type: 'int',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -64,6 +83,21 @@ export class CreateUsersTable1729600477535 implements MigrationInterface {
       }),
       true,
     );
+
+    await queryRunner.createForeignKeys('users', [
+      new TableForeignKey({
+        columnNames: ['city_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'cities',
+        onDelete: 'CASCADE',
+      }),
+      new TableForeignKey({
+        columnNames: ['province_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'provinces',
+        onDelete: 'CASCADE',
+      }),
+    ]);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

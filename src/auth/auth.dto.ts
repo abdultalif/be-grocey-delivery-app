@@ -18,6 +18,8 @@ export class JwtPayload {
   phone: string;
   address: string;
   is_verified: boolean;
+  province_id: number;
+  city_id: number;
 }
 
 export class RegisterResponse {

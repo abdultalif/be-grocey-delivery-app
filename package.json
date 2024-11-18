@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "husky install",
     "migration:run": "typeorm migration:run -d dist/src/database/data-source.js",
-    "migration:rollback": "typeorm migration:revert -d dist/src/database/data-source.js",
+    "schema:drop": "typeorm schema:drop -d dist/src/database/data-source.js",
     "seed:run": "ts-node -r tsconfig-paths/register src/seed.ts"
   },
   "dependencies": {

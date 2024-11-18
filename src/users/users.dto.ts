@@ -6,6 +6,8 @@ export class CurrentResponse {
   image: string;
   address: string;
   phone: string;
+  city_id: number;
+  province_id: number;
   is_verified: boolean;
 }
 
