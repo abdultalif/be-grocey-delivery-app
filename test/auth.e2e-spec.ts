@@ -41,6 +41,8 @@ describe('AuthController (e2e)', () => {
         email: registerData.email,
         name: registerData.name,
         role: 'User',
+        password: 'hashedPassword',
+        image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
         is_verified: true,
       }));
 

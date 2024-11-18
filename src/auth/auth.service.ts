@@ -50,6 +50,8 @@ export class AuthService {
       email: registerRequest.email,
       name: registerRequest.name,
       password: registerRequest.password,
+      image:
+        'https://ik.imagekit.io/abdullt85/users/default.jpg?updatedAt=1731858245768',
     });
 
     const result = await this.authRepository.save(user);
@@ -59,6 +61,7 @@ export class AuthService {
       email: result.email,
       name: result.name,
       role: result.role,
+      image: result.image,
       is_verified: result.is_verified,
     };
   }
@@ -95,6 +98,7 @@ export class AuthService {
       email: user.email,
       name: user.name,
       role: user.role,
+      image: user.image,
       address: user.address,
       phone: user.phone,
       is_verified: user.is_verified,

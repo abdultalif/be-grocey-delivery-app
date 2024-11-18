@@ -14,6 +14,7 @@ export class JwtPayload {
   email: string;
   name: string;
   role: string;
+  image: string;
   phone: string;
   address: string;
   is_verified: boolean;
@@ -24,6 +25,7 @@ export class RegisterResponse {
   email: string;
   name: string;
   role: string;
+  image: string;
   is_verified: boolean;
 }
 

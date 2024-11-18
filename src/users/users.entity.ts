@@ -24,6 +24,9 @@ export class Users {
   @Column()
   password: string;
 
+  @Column()
+  image: string;
+
   @Column({ default: null })
   address: string;
 

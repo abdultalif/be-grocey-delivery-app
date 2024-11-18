@@ -47,6 +47,7 @@ describe('AuthController', () => {
         email: request.email,
         name: request.name,
         role: 'User',
+        image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
         is_verified: false,
       };
       jest.spyOn(authService, 'register').mockResolvedValue(response);

@@ -63,11 +63,14 @@ describe('AuthService', () => {
       role: 'User',
       is_verified: false,
       address: null,
+      image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
       phone: null,
       password: 'hashedPassword',
       created_at: new Date(),
       updated_at: new Date(),
       carts: [],
+      reviews: [],
+      transactions: [],
     };
     const requestData: RegisterUserRequest = {
       email: 'abdultalif@gmail.com',
@@ -89,6 +92,7 @@ describe('AuthService', () => {
         email: 'abdultalif@gmail.com',
         name: 'Abdul Talif',
         role: 'User',
+        image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
         is_verified: false,
       });
     });
@@ -118,10 +122,13 @@ describe('AuthService', () => {
         is_verified: true,
         address: null,
         phone: null,
+        image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
         password: await bcrypt.hash('talif123', 10),
         created_at: new Date(),
         updated_at: new Date(),
         carts: [],
+        reviews: [],
+        transactions: [],
       };
       const token = 'jwt-token';
 
@@ -149,11 +156,14 @@ describe('AuthService', () => {
         role: 'User',
         is_verified: true,
         address: null,
+        image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
         phone: null,
         password: await bcrypt.hash('talif123', 10),
         created_at: new Date(),
         updated_at: new Date(),
         carts: [],
+        reviews: [],
+        transactions: [],
       };
       jest.spyOn(validationService, 'validate').mockReturnValue(requestData);
       jest.spyOn(authRepository, 'findOne').mockResolvedValue(user);
@@ -169,12 +179,15 @@ describe('AuthService', () => {
         name: 'Abdul Talif',
         role: 'User',
         is_verified: false,
+        image: 'https://ik.imagekit.io/abdullt85/users/default.jpg',
         address: null,
         phone: null,
         password: await bcrypt.hash('talif123', 10),
         created_at: new Date(),
         updated_at: new Date(),
         carts: [],
+        reviews: [],
+        transactions: [],
       };
       jest.spyOn(validationService, 'validate').mockReturnValue(requestData);
       jest.spyOn(authRepository, 'findOne').mockResolvedValue(user);
