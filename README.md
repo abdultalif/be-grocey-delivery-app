@@ -4,7 +4,7 @@
 
 # Tech Stack
 
-NestJS, TypeORM, TypeScript, Redis, PostgreSQL, Jest, Super Test, ImageKit, JWT, Raja Ongkir, Midtrans Snap
+NestJS, TypeORM, TypeScript, Redis, PostgreSQL, Jest, Super Test, ImageKit, JWT, Raja Ongkir, Midtrans Snap, Docker
 
 # Backend Environment Variables
 
