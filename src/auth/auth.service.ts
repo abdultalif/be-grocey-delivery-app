@@ -19,6 +19,7 @@ import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import { Users } from 'src/users/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RedisService } from 'src/common/redis/redis.service';
 
 @Injectable()
 export class AuthService {
@@ -28,6 +29,7 @@ export class AuthService {
     private validationService: ValidationService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private redisService: RedisService,
   ) {}
 
   async register(request: RegisterUserRequest): Promise<RegisterResponse> {
@@ -110,6 +112,8 @@ export class AuthService {
     const token = this.jwtService.sign(payload, {
       expiresIn: this.configService.get<string>('JWT_EXPIRES_IN'),
     });
+
+    await this.redisService.set(`auth:${user.id}`, token, 7200);
 
     return {
       token: token,

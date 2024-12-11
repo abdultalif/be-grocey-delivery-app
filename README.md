@@ -4,7 +4,7 @@
 
 # Tech Stack
 
-NestJS, TypeORM, TypeScript, PostgreSQL, Jest, Super Test, ImageKit, JWT
+NestJS, TypeORM, TypeScript, Redis, PostgreSQL, Jest, Super Test, ImageKit, JWT, Raja Ongkir, Midtrans Snap
 
 # Backend Environment Variables
 
@@ -20,6 +20,11 @@ Untuk menjalankan projek ini, kamu perlu menambahkkan environment variables beri
 `IMAGEKIT_PUBLIC_KEY`
 `IMAGEKIT_PRIVATE_KEY`
 `IMAGEKIT_URL_ENDPOINT`
+`RAJA_ONGKIR_KEY`
+`PORT`
+`MIDTRANS_SERVER_KEY`
+`REDIS_HOST`
+`REDIS_PORT`
 
 # Menjalankan Projek di Lokal
 

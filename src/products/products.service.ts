@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Products } from './products.entity';
 import { imagekit } from 'src/common/config/imagekit.config';
+import { RedisService } from 'src/common/redis/redis.service';
 
 @Injectable()
 export class ProductsService {
@@ -17,7 +18,14 @@ export class ProductsService {
     private validationService: ValidationService,
     @InjectRepository(Products)
     private productsRepository: Repository<Products>,
+    private redisService: RedisService,
   ) {}
+
+  private async clearCache() {
+    await this.redisService.del('all_products');
+    await this.redisService.del('all_products_with_reviews');
+    await this.redisService.del('all_products_with_reviews_by_category');
+  }
 
   async create(
     request: CreateProductRequest,
@@ -51,6 +59,8 @@ export class ProductsService {
     const result = await this.productsRepository.save(product);
 
     const savedProduct = Array.isArray(result) ? result[0] : result;
+
+    await this.clearCache();
 
     return {
       id: savedProduct.id,
@@ -104,6 +114,8 @@ export class ProductsService {
     const updatedProduct = await this.productsRepository.save(product);
     console.log(file);
 
+    await this.clearCache();
+
     return {
       id: updatedProduct.id,
       name: updatedProduct.name,
@@ -118,11 +130,20 @@ export class ProductsService {
   }
 
   async getAll(): Promise<ProductResponse[]> {
+    const cachedProducts = await this.redisService.get('all_products');
+    if (cachedProducts) {
+      console.log('Fetching products from redis cache');
+      return JSON.parse(cachedProducts);
+    }
+
     const result = await this.productsRepository.find();
 
     if (result.length === 0) {
       throw new NotFoundException('Produk tidak ditemukan');
     }
+
+    await this.redisService.set('all_products', JSON.stringify(result), 3600);
+    console.log('Fetching products from DB');
 
     return result.map((product) => ({
       id: product.id,
@@ -136,7 +157,16 @@ export class ProductsService {
       description: product.description,
     }));
   }
+
   async getAllWithReviews(): Promise<any> {
+    const cachedProducts = await this.redisService.get(
+      'all_products_with_reviews',
+    );
+    if (cachedProducts) {
+      console.log('Fetching products with reviews from redis cache');
+      return JSON.parse(cachedProducts);
+    }
+
     const result = await this.productsRepository.find({
       relations: ['reviews'],
     });
@@ -145,7 +175,7 @@ export class ProductsService {
       throw new NotFoundException('Produk tidak ditemukan');
     }
 
-    return result.map((product) => {
+    const productsWithReviews = result.map((product) => {
       const reviewCount = product.reviews.length;
       const averageRating =
         reviewCount > 0
@@ -167,8 +197,30 @@ export class ProductsService {
         reviewCount,
       };
     });
+
+    await this.redisService.set(
+      'all_products_with_reviews',
+      JSON.stringify(result),
+      3600,
+    );
+
+    console.log('Fetching products with reviews from DB');
+
+    return productsWithReviews;
   }
+
   async getByCategory(category: string): Promise<ProductResponse[]> {
+    const cachedProducts = await this.redisService.get(
+      'all_products_with_reviews_by_category',
+    );
+
+    if (cachedProducts) {
+      console.log(
+        'Fetching products with reviews by category from redis cache',
+      );
+      return JSON.parse(cachedProducts);
+    }
+
     const result = await this.productsRepository.find({
       where: { category: category },
       relations: ['reviews'],
@@ -180,7 +232,7 @@ export class ProductsService {
       );
     }
 
-    return result.map((product) => {
+    const productsWithReviewsByCategory = result.map((product) => {
       const reviewCount = product.reviews.length;
       const averageRating =
         reviewCount > 0
@@ -202,7 +254,16 @@ export class ProductsService {
         reviewCount,
       };
     });
+    await this.redisService.set(
+      'all_products_with_reviews_by_category',
+      JSON.stringify(result),
+      3600,
+    );
+
+    console.log('Fetching products with reviews by category from DB');
+    return productsWithReviewsByCategory;
   }
+
   async getById(productId: string): Promise<ProductResponse> {
     const result = await this.productsRepository.findOneBy({ id: productId });
 
@@ -232,6 +293,8 @@ export class ProductsService {
 
     await imagekit.deleteFile(user.image_public_id);
     user = await this.productsRepository.remove(user);
+
+    await this.clearCache();
 
     return {
       id: id,
